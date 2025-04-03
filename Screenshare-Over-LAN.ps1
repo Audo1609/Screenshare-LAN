@@ -97,10 +97,15 @@ while ($true) {
             $boundary = "--frame"
 
             while ($context.Response.OutputStream.CanWrite) {
-                $screen = [System.Windows.Forms.Screen]::PrimaryScreen
-                $bitmap = New-Object System.Drawing.Bitmap $screen.Bounds.Width, $screen.Bounds.Height
-                $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
-                $graphics.CopyFromScreen($screen.Bounds.X, $screen.Bounds.Y, 0, 0, $screen.Bounds.Size)
+               # Get the primary screen (laptop screen)
+            $screen = [System.Windows.Forms.Screen]::PrimaryScreen
+
+            # Create a bitmap with the full screen size
+            $bitmap = New-Object System.Drawing.Bitmap $screen.Bounds.Width, $screen.Bounds.Height
+            $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+
+            # Capture the entire screen
+            $graphics.CopyFromScreen($screen.Bounds.X, $screen.Bounds.Y, 0, 0, $screen.Bounds.Size)
 
                 $stream = New-Object System.IO.MemoryStream
                 $bitmap.Save($stream, [System.Drawing.Imaging.ImageFormat]::Png)
